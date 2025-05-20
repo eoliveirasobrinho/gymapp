@@ -1,7 +1,10 @@
 services:
-  mongodb:
-    image: mongo
-    restart: always
+  db-mongo:
+    image: mongo:latest
+    ports:
+      - '27017:27017'
+    container_name: db_mongo
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=user
-      - MONGO_INITDB_ROOT_PASSWORD=pass
+      - MONGO_USER=mongodbuser
+      - MONGO_PASSWORD=mongodbpassword
+    restart: always
