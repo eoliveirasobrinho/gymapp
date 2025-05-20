@@ -7,6 +7,7 @@ import com.project.gymapp.modules.user.models.enums.DocumentType;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Document(collection = "USER")
 public class User {
@@ -22,17 +23,21 @@ public class User {
     @NotBlank
     private DocumentType type;
     @Email
+    @NotNull
     private String email;
     @NotBlank
     private Address address;
+    @NotNull
+    private Boolean isActive;
 
-    public User(String document, String email, String lastName, String name, DocumentType type, Address address) {
+    public User(String document, String email, String lastName, String name, DocumentType type, Address address, Boolean isActive) {
         this.document = document;
         this.email = email;
         this.lastName = lastName;
         this.name = name;
         this.type = type;
         this.address = address;
+        this.isActive = isActive;
     }
 
     public User() {
@@ -93,6 +98,14 @@ public class User {
 
     public void setAddress(Address address) {
         this.address = address;
+    }
+
+    public Boolean getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(Boolean isActive) {
+        this.isActive = isActive;
     }
 
 }
