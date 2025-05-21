@@ -1,6 +1,5 @@
 package com.project.gymapp.modules.user.models;
 
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import jakarta.validation.constraints.NotBlank;
@@ -8,8 +7,6 @@ import jakarta.validation.constraints.NotBlank;
 @Document(collection = "USER")
 public class Address {
 
-    @Id
-    private Long id;
     @NotBlank
     private String street;
     @NotBlank
@@ -33,14 +30,6 @@ public class Address {
         this.state = state;
         this.street = street;
         this.zipCode = zipCode;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getStreet() {

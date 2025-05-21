@@ -13,7 +13,7 @@ import jakarta.validation.constraints.NotNull;
 public class User {
 
     @Id
-    private Long id;
+    private String id;
     @NotBlank
     private String name;
     @NotBlank
@@ -23,14 +23,15 @@ public class User {
     @NotBlank
     private DocumentType type;
     @Email
-    @NotNull
+    @NotBlank
     private String email;
     @NotBlank
     private Address address;
     @NotNull
     private Boolean isActive;
 
-    public User(String document, String email, String lastName, String name, DocumentType type, Address address, Boolean isActive) {
+    public User(String id, String document, String email, String lastName, String name, DocumentType type, Address address, Boolean isActive) {
+        this.id = id;
         this.document = document;
         this.email = email;
         this.lastName = lastName;
@@ -40,15 +41,11 @@ public class User {
         this.isActive = isActive;
     }
 
-    public User() {
-
-    }
-
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
