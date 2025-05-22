@@ -1,12 +1,13 @@
 package com.project.gymapp.modules.user.controllers;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.project.gymapp.modules.user.models.User;
 import com.project.gymapp.modules.user.models.dtos.UserDTO;
+import com.project.gymapp.modules.user.repositories.UserRepository;
 import com.project.gymapp.modules.user.services.UserService;
 
 import jakarta.validation.Valid;
@@ -51,13 +53,31 @@ public class UserController {
 
     @GetMapping("/mail/{email}")
     public ResponseEntity<Object> findByEmail(@PathVariable String email) {
-        Optional<User> user = userService.findUserByEmail(email);
-        return user.isEmpty() ? ResponseEntity.status(HttpStatus.BAD_REQUEST).body(user) : ResponseEntity.status(HttpStatus.OK).body(user);
+        User user = userService.findUserByEmail(email);
+        return ResponseEntity.status(HttpStatus.OK).body(user);
     }
 
     @PostMapping("/create")
     public ResponseEntity<Object> createUser(@RequestBody @Valid UserDTO userDTO) throws Exception {
         User user = userService.createUser(userDTO);
         return user.getEmail().isEmpty() ? ResponseEntity.status(HttpStatus.BAD_REQUEST).body(user) : ResponseEntity.status(HttpStatus.CREATED).body(user);
+    }
+
+    @PatchMapping("/update/{email}")
+    public ResponseEntity<Object> updateUser(@RequestBody @Valid UserDTO userDto, @PathVariable String email) {
+        User user = userService.updateUser(userDto, email);
+        return ResponseEntity.status(HttpStatus.OK).body(user);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteUser(@PathVariable String id) {
+        userService.deleteUser(id);
+    }
+
+    @DeleteMapping("/delete/all")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteAll() {
+        userService.deleteAll();
     }
 }
