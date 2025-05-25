@@ -7,6 +7,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.project.gymapp.modules.user.infrastructure.security.SecurityConfigurations;
 import com.project.gymapp.modules.user.models.User;
 import com.project.gymapp.modules.user.models.dtos.UserDTO;
 import com.project.gymapp.modules.user.repositories.UserRepository;
@@ -16,6 +17,9 @@ public class UserService {
 
     @Autowired
     private final UserRepository userRepository;
+
+    @Autowired
+    SecurityConfigurations securityConfigurations;
 
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -31,56 +35,61 @@ public class UserService {
         return userList.isEmpty() ? userList : userList;
     }
 
-    public User findUserByEmail(String email) {
-        User user = userRepository.findUserByEmail(email);
+    public Optional<User> findUserByEmail(String email) {
+        Optional<User> user = userRepository.findUserByEmail(email);
         return user;
     }
 
     public User createUser(UserDTO userDTO) throws Exception {
 
-        User userFounded = userRepository.findUserByEmail(userDTO.email());
+        Optional<User> userFounded = userRepository.findUserByEmail(userDTO.email());
 
         if (userDTO == null) {
             throw new Exception("This user cannot be empty! Please create one");
         }
-        if (userFounded.getEmail() == userDTO.email()) {
-            throw new Exception("Usuário encontrado com este email! " + userFounded);
+        if (userFounded.isPresent()) {
+            throw new Exception("User founded! Use another email");
         }
+
+        String userPassword = userDTO.password();
+        String encodedPassString = this.securityConfigurations.passwordEncoder().encode(userPassword);
         String id = UUID.randomUUID().toString();
-        User user = new User(id, userDTO.document(), userDTO.email(), userDTO.lastName(), userDTO.name(), userDTO.documentType(), userDTO.address(), userDTO.isActive());
+        User user = new User(id, userDTO.document(), userDTO.email(), userDTO.lastName(), userDTO.name(), userDTO.documentType(), userDTO.address(), userDTO.isActive(), userDTO.username(), encodedPassString, userDTO.role());
         User userSaved = userRepository.save(user);
         return userSaved;
     }
 
     public User updateUser(UserDTO userDTO, String email) {
-        User user = userRepository.findUserByEmail(email);
+        Optional<User> user = userRepository.findUserByEmail(email);
 
-        if (userDTO.document() != null && !userDTO.document().equals(user.getDocument())) {
-            user.setDocument(userDTO.document());
-        }
-        if (userDTO.email() != null && !userDTO.email().equals(user.getEmail())) {
-            user.setEmail(userDTO.email());
-        }
-        if (userDTO.isActive() != null && !userDTO.isActive().equals(user.getIsActive())) {
-            user.setIsActive(userDTO.isActive());
-        }
-        if (userDTO.address() != null && !userDTO.address().equals(user.getAddress())) {
-            user.setAddress(userDTO.address());
-        }
+        if (user.isPresent()) {
+            if (userDTO.document() != null && !userDTO.document().equals(user.get().getDocument())) {
+                user.get().setDocument(userDTO.document());
+            }
+            if (userDTO.email() != null && !userDTO.email().equals(user.get().getEmail())) {
+                user.get().setEmail(userDTO.email());
+            }
+            if (userDTO.isActive() != null && !userDTO.isActive().equals(user.get().getIsActive())) {
+                user.get().setIsActive(userDTO.isActive());
+            }
+            if (userDTO.address() != null && !userDTO.address().equals(user.get().getAddress())) {
+                user.get().setAddress(userDTO.address());
+            }
 
-        if (userDTO.name() != null && !userDTO.name().equals(user.getName())) {
-            user.setName(userDTO.name());
-        }
+            if (userDTO.name() != null && !userDTO.name().equals(user.get().getName())) {
+                user.get().setName(userDTO.name());
+            }
 
-        if (userDTO.lastName() != null && !userDTO.lastName().equals(user.getLastName())) {
-            user.setLastName(userDTO.lastName());
-        }
+            if (userDTO.lastName() != null && !userDTO.lastName().equals(user.get().getLastName())) {
+                user.get().setLastName(userDTO.lastName());
+            }
 
-        if (userDTO.documentType() != null && !userDTO.documentType().equals(user.getType())) {
-            user.setType(userDTO.documentType());
+            if (userDTO.documentType() != null && !userDTO.documentType().equals(user.get().getType())) {
+                user.get().setType(userDTO.documentType());
+            }
         }
-
-        User userSaved = userRepository.save(user);
+        User userToUpdate = user.get();
+        User userSaved = userRepository.save(userToUpdate);
         return userSaved;
     }
 

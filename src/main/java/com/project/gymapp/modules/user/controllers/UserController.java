@@ -1,6 +1,7 @@
 package com.project.gymapp.modules.user.controllers;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,13 +18,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.project.gymapp.modules.user.models.User;
 import com.project.gymapp.modules.user.models.dtos.UserDTO;
-import com.project.gymapp.modules.user.repositories.UserRepository;
 import com.project.gymapp.modules.user.services.UserService;
 
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("user")
 public class UserController {
 
     @Autowired
@@ -53,14 +53,14 @@ public class UserController {
 
     @GetMapping("/mail/{email}")
     public ResponseEntity<Object> findByEmail(@PathVariable String email) {
-        User user = userService.findUserByEmail(email);
-        return ResponseEntity.status(HttpStatus.OK).body(user);
+        Optional<User> user = userService.findUserByEmail(email);
+        return user.isEmpty() ? ResponseEntity.status(HttpStatus.NOT_FOUND).body(user) : ResponseEntity.status(HttpStatus.OK).body(user);
     }
 
     @PostMapping("/create")
     public ResponseEntity<Object> createUser(@RequestBody @Valid UserDTO userDTO) throws Exception {
         User user = userService.createUser(userDTO);
-        return user.getEmail().isEmpty() ? ResponseEntity.status(HttpStatus.BAD_REQUEST).body(user) : ResponseEntity.status(HttpStatus.CREATED).body(user);
+        return user.getEmail().isEmpty() ? ResponseEntity.status(HttpStatus.NOT_FOUND).body(user) : ResponseEntity.status(HttpStatus.CREATED).body(user);
     }
 
     @PatchMapping("/update/{email}")
