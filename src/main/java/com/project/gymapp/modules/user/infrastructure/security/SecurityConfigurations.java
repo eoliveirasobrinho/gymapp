@@ -28,13 +28,16 @@ public class SecurityConfigurations {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests.requestMatchers(HttpMethod.POST, "/auth/login").permitAll())
+                .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests.requestMatchers(HttpMethod.GET, "/user/health").permitAll())
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests.requestMatchers(HttpMethod.POST, "/user/create").hasAnyRole("ADMIN", "MANAGEMENT"))
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests.requestMatchers(HttpMethod.PATCH, "/user/update/**").hasAnyRole("ADMIN", "MANAGEMENT"))
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests.requestMatchers(HttpMethod.GET, "/user/all ").hasAnyRole("ADMIN", "MANAGEMENT"))
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests.requestMatchers(HttpMethod.GET, "/user/name/** ").hasAnyRole("ADMIN", "MANAGEMENT"))
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests.requestMatchers(HttpMethod.GET, "/user/mail/** ").hasAnyRole("ADMIN", "MANAGEMENT"))
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests.requestMatchers(HttpMethod.DELETE, "/user/delete/all ").hasRole("ADMIN"))
-                .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests.requestMatchers(HttpMethod.DELETE, "/user/delete/** ").hasAnyRole("ADMIN", "MANAGEMENT").anyRequest().authenticated())
+                .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests.requestMatchers(HttpMethod.DELETE, "/user/delete/** ").hasAnyRole("ADMIN", "MANAGEMENT"))
+                .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests.requestMatchers(HttpMethod.GET, "/product/all").hasAnyRole("ADMIN", "MANAGEMENT", "CUSTOMER"))
+                .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests.requestMatchers(HttpMethod.GET, "/product/health ").permitAll().anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
