@@ -37,6 +37,8 @@ public class SecurityConfigurations {
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests.requestMatchers(HttpMethod.DELETE, "/user/delete/all ").hasRole("ADMIN"))
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests.requestMatchers(HttpMethod.DELETE, "/user/delete/** ").hasAnyRole("ADMIN", "MANAGEMENT"))
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests.requestMatchers(HttpMethod.GET, "/product/all").hasAnyRole("ADMIN", "MANAGEMENT", "CUSTOMER"))
+                .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests.requestMatchers(HttpMethod.POST, "/product/create").hasAnyRole("ADMIN", "MANAGEMENT"))
+                .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests.requestMatchers(HttpMethod.POST, "/product/delete/**").hasAnyRole("ADMIN", "MANAGEMENT"))
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests.requestMatchers(HttpMethod.GET, "/product/health ").permitAll().anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
