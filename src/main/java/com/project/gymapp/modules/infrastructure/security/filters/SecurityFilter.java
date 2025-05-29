@@ -9,8 +9,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.project.gymapp.modules.infrastructure.security.services.AuthorizationService;
 import com.project.gymapp.modules.infrastructure.security.services.TokenService;
-import com.project.gymapp.modules.user.services.AuthorizationService;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

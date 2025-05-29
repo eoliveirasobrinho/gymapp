@@ -1,4 +1,4 @@
-package com.project.gymapp.modules.user.services;
+package com.project.gymapp.modules.infrastructure.security.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
