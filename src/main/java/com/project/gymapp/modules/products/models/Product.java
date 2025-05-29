@@ -6,7 +6,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.project.gymapp.modules.products.models.enums.ProductTypeEnum;
+import com.project.gymapp.modules.products.models.enums.ProductType;
 
 import jakarta.validation.constraints.NotBlank;
 
@@ -16,7 +16,7 @@ public class Product {
     @Id
     private String id;
     @NotBlank
-    private ProductTypeEnum productType;
+    private ProductType productType;
     @NotBlank
     private String name;
     @NotBlank
@@ -30,7 +30,7 @@ public class Product {
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
     private String manufacturingDate;
 
-    public Product(String id, String brand, String manufacturingDate, String name, BigDecimal price, Integer quantity, ProductDetails productDetails, ProductTypeEnum productType, String valiDate) {
+    public Product(String id, String brand, String manufacturingDate, String name, BigDecimal price, Integer quantity, ProductDetails productDetails, ProductType productType, String valiDate) {
         this.id = id;
         this.brand = brand;
         this.manufacturingDate = manufacturingDate;
@@ -50,11 +50,11 @@ public class Product {
         this.id = id;
     }
 
-    public ProductTypeEnum getProductType() {
+    public ProductType getProductType() {
         return productType;
     }
 
-    public void setProductType(ProductTypeEnum productType) {
+    public void setProductType(ProductType productType) {
         this.productType = productType;
     }
 

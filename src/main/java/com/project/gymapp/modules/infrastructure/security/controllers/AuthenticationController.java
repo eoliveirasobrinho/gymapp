@@ -1,4 +1,4 @@
-package com.project.gymapp.modules.user.controllers;
+package com.project.gymapp.modules.infrastructure.security.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.project.gymapp.modules.user.infrastructure.security.TokenService;
+import com.project.gymapp.modules.infrastructure.security.services.TokenService;
 import com.project.gymapp.modules.user.models.User;
 import com.project.gymapp.modules.user.models.dtos.AuthenticationDTO;
 import com.project.gymapp.modules.user.models.dtos.LoginResponseDTO;
