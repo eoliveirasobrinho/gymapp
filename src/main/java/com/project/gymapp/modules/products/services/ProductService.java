@@ -34,14 +34,14 @@ public class ProductService {
         return productsByProductType;
     }
 
-    public Product createProduct(ProductDTO productDTO) throws Exception{
+    public Product createProduct(ProductDTO productDTO) throws Exception {
 
         Optional<Product> productFounded = productRepository.findById(productDTO.id());
-        if(productFounded == null) {
+        if (productFounded == null) {
             throw new NullPointerException("Não foi possível Salvar! Favor preencher os campos obrigatórios");
         }
 
-        if(productFounded.isPresent()){
+        if (productFounded.isPresent()) {
             throw new Exception("Produto já cadastrado no sistema!");
         }
 
@@ -61,6 +61,5 @@ public class ProductService {
         Product productToDelete = product.get();
         productRepository.delete(productToDelete);
     }
-
 
 }

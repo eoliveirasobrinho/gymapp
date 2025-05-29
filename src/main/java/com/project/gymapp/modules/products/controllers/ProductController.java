@@ -45,7 +45,7 @@ public class ProductController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Product> createProduct(@RequestBody @Valid ProductDTO productDto) throws Exception{
+    public ResponseEntity<Product> createProduct(@RequestBody @Valid ProductDTO productDto) throws Exception {
         Product product = productService.createProduct(productDto);
         return product.getId().isEmpty() ? ResponseEntity.status(HttpStatus.BAD_REQUEST).build() : ResponseEntity.status(HttpStatus.CREATED).body(product);
     }
@@ -53,7 +53,7 @@ public class ProductController {
     @GetMapping("/{id}")
     public ResponseEntity<Optional<Product>> getProductById(@PathVariable String id) {
         Optional<Product> product = productService.findById(id);
-        return product.isEmpty() ? ResponseEntity.status(HttpStatus.NOT_FOUND).build() : ResponseEntity.status(HttpStatus.OK).body(product);
+        return ResponseEntity.status(HttpStatus.OK).body(product);
     }
 
     @DeleteMapping("/delete/{id}")
