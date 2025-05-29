@@ -2,7 +2,6 @@ package com.project.gymapp.modules.products.services;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.project.gymapp.modules.products.models.Product;
 import com.project.gymapp.modules.products.models.dtos.ProductDTO;
 import com.project.gymapp.modules.products.repositories.ProductRepository;
+import com.project.gymapp.modules.utils.CreateUUID;
 
 @Service
 public class ProductService {
@@ -17,7 +17,10 @@ public class ProductService {
     @Autowired
     ProductRepository productRepository;
 
-    public ProductService(ProductRepository productRepository) {
+    @Autowired
+    CreateUUID createUUID;
+
+    public ProductService(ProductRepository productRepository, CreateUUID createUUID) {
         this.productRepository = productRepository;
     }
 
@@ -26,8 +29,18 @@ public class ProductService {
         return products;
     }
 
-    public Product createProduct(ProductDTO productDTO) {
-        String id = UUID.randomUUID().toString();
+    public Product createProduct(ProductDTO productDTO) throws Exception{
+
+        Optional<Product> productFounded = productRepository.findById(productDTO.id());
+        if(productFounded == null) {
+            throw new NullPointerException("Não foi possível Salvar! Favor preencher os campos obrigatórios");
+        }
+
+        if(productFounded.isPresent()){
+            throw new Exception("Produto já cadastrado no sistema!");
+        }
+
+        String id = createUUID.createUUID();
         Product product = new Product(id, productDTO.brand(), productDTO.manufacturingDate(), productDTO.name(), productDTO.price(), productDTO.quantity(), productDTO.productDetails(), productDTO.productType(), productDTO.valiDate());
         Product productToSave = productRepository.save(product);
         return productToSave;
@@ -43,4 +56,6 @@ public class ProductService {
         Product productToDelete = product.get();
         productRepository.delete(productToDelete);
     }
+
+
 }

@@ -39,7 +39,7 @@ public class ProductController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Product> createProduct(@RequestBody @Valid ProductDTO productDto) {
+    public ResponseEntity<Product> createProduct(@RequestBody @Valid ProductDTO productDto) throws Exception{
         Product product = productService.createProduct(productDto);
         return product.getId().isEmpty() ? ResponseEntity.status(HttpStatus.BAD_REQUEST).build() : ResponseEntity.status(HttpStatus.CREATED).body(product);
     }
