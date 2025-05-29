@@ -62,4 +62,47 @@ public class ProductService {
         productRepository.delete(productToDelete);
     }
 
+    public Product updateProduct(ProductDTO productDTO, String id) {
+        Optional<Product> product = productRepository.findById(id);
+
+        if (product.isPresent()) {
+            if (productDTO.name() != null && productDTO.name().equals(product.get().getName())) {
+                product.get().setName(productDTO.name());
+            }
+
+            if (productDTO.brand() != null && productDTO.brand().equals(product.get().getBrand())) {
+                product.get().setBrand(productDTO.brand());
+            }
+
+            if (productDTO.price() != null && productDTO.price().equals(product.get().getPrice())) {
+                product.get().setPrice(productDTO.price());
+            }
+
+            if (productDTO.manufacturingDate() != null && productDTO.manufacturingDate().equals(product.get().getManufacturingDate())) {
+                product.get().setManufacturingDate(productDTO.manufacturingDate());
+            }
+
+            if (productDTO.valiDate() != null && productDTO.valiDate().equals(product.get().getValiDate())) {
+                product.get().setValiDate(productDTO.valiDate());
+            }
+
+            if (productDTO.productDetails() != null && productDTO.productDetails().equals(product.get().getProductDetails())) {
+                product.get().setProductDetails(productDTO.productDetails());
+            }
+
+            if (productDTO.productType() != null && productDTO.productType().equals(product.get().getProductType())) {
+                product.get().setProductType(productDTO.productType());
+            }
+
+            if (productDTO.quantity() != null && productDTO.quantity().equals(product.get().getQuantity())) {
+                product.get().setQuantity(productDTO.quantity());
+            }
+
+        }
+
+        Product productToSave = product.get();
+        Product productSaved = productRepository.save(productToSave);
+        return productSaved;
+    }
+
 }
