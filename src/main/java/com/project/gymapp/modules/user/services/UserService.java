@@ -6,7 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.project.gymapp.modules.user.infrastructure.security.SecurityConfigurations;
+import com.project.gymapp.modules.infrastructure.security.configs.SecurityConfigurations;
 import com.project.gymapp.modules.user.models.User;
 import com.project.gymapp.modules.user.models.dtos.UserDTO;
 import com.project.gymapp.modules.user.repositories.UserRepository;

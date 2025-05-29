@@ -1,4 +1,4 @@
-package com.project.gymapp.modules.user.infrastructure.security;
+package com.project.gymapp.modules.infrastructure.security.services;
 
 import java.time.Instant;
 import java.time.LocalDateTime;

@@ -1,13 +1,14 @@
 package com.project.gymapp.modules.products.models.enums;
 
-public enum ProductTypeEnum {
+public enum ProductType {
     SUPPLEMENT("suplemento"),
     VESTUARY("vestuário"),
     DRINK_FOOD("bebida e comida");
 
     private final String productType;
 
-    ProductTypeEnum(String productType) {
+    ProductType(String productType
+    ) {
         this.productType = productType;
     }
 

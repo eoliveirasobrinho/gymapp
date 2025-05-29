@@ -29,6 +29,11 @@ public class ProductService {
         return products;
     }
 
+    public List<Product> getAllProductsByProductType(String productType) {
+        List<Product> productsByProductType = productRepository.findByProductType(productType);
+        return productsByProductType;
+    }
+
     public Product createProduct(ProductDTO productDTO) throws Exception{
 
         Optional<Product> productFounded = productRepository.findById(productDTO.id());

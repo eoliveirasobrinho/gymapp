@@ -1,4 +1,4 @@
-package com.project.gymapp.modules.user.infrastructure.security;
+package com.project.gymapp.modules.infrastructure.security.configs;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -13,6 +13,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import com.project.gymapp.modules.infrastructure.security.filters.SecurityFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -38,7 +40,9 @@ public class SecurityConfigurations {
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests.requestMatchers(HttpMethod.DELETE, "/user/delete/** ").hasAnyRole("ADMIN", "MANAGEMENT"))
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests.requestMatchers(HttpMethod.GET, "/product/all").hasAnyRole("ADMIN", "MANAGEMENT", "CUSTOMER"))
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests.requestMatchers(HttpMethod.POST, "/product/create").hasAnyRole("ADMIN", "MANAGEMENT"))
-                .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests.requestMatchers(HttpMethod.POST, "/product/delete/**").hasAnyRole("ADMIN", "MANAGEMENT"))
+                .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests.requestMatchers(HttpMethod.DELETE, "/product/delete/**").hasAnyRole("ADMIN", "MANAGEMENT"))
+                .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests.requestMatchers(HttpMethod.GET, "/product/**").hasAnyRole("ADMIN", "MANAGEMENT"))
+                .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests.requestMatchers(HttpMethod.GET, "/product/product-type/**").hasAnyRole("ADMIN", "MANAGEMENT"))
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests.requestMatchers(HttpMethod.GET, "/product/health ").permitAll().anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

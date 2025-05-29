@@ -1,4 +1,4 @@
-package com.project.gymapp.modules.user.infrastructure.security;
+package com.project.gymapp.modules.infrastructure.security.filters;
 
 import java.io.IOException;
 
@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.project.gymapp.modules.infrastructure.security.services.TokenService;
 import com.project.gymapp.modules.user.services.AuthorizationService;
 
 import jakarta.servlet.FilterChain;
