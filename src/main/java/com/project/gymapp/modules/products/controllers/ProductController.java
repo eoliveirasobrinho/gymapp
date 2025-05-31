@@ -36,19 +36,19 @@ public class ProductController {
     @GetMapping("/all")
     public ResponseEntity<List<Product>> getAllProducts() {
         List<Product> products = productService.getAllProducts();
-        return products.isEmpty() ? ResponseEntity.status(HttpStatus.NOT_FOUND).build() : ResponseEntity.status(HttpStatus.OK).body(products);
+        return ResponseEntity.status(HttpStatus.OK).body(products);
     }
 
     @GetMapping("/product-type/{productType}")
     public ResponseEntity<List<Product>> getProductByProductType(@PathVariable String productType) {
         List<Product> products = productService.getAllProductsByProductType(productType);
-        return products.isEmpty() ? ResponseEntity.status(HttpStatus.NOT_FOUND).build() : ResponseEntity.status(HttpStatus.OK).body(products);
+        return ResponseEntity.status(HttpStatus.OK).body(products);
     }
 
     @PostMapping("/create")
     public ResponseEntity<Product> createProduct(@RequestBody @Valid ProductDTO productDto) throws Exception {
         Product product = productService.createProduct(productDto);
-        return product.getId().isEmpty() ? ResponseEntity.status(HttpStatus.BAD_REQUEST).build() : ResponseEntity.status(HttpStatus.CREATED).body(product);
+        return ResponseEntity.status(HttpStatus.CREATED).body(product);
     }
 
     @GetMapping("/{id}")

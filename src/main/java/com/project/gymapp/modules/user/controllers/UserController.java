@@ -42,25 +42,25 @@ public class UserController {
     @GetMapping("/all")
     public ResponseEntity<List<User>> findAll() {
         List<User> usersList = userService.findAll();
-        return usersList.isEmpty() ? ResponseEntity.status(HttpStatus.NOT_FOUND).body(usersList) : ResponseEntity.status(HttpStatus.OK).body(usersList);
+        return ResponseEntity.status(HttpStatus.OK).body(usersList);
     }
 
     @GetMapping("/name/{name}")
     public ResponseEntity<List<User>> findByName(@PathVariable String name) {
         List<User> userList = userService.findUserByName(name);
-        return userList.isEmpty() ? ResponseEntity.status(HttpStatus.NOT_FOUND).body(userList) : ResponseEntity.status(HttpStatus.OK).body(userList);
+        return ResponseEntity.status(HttpStatus.OK).body(userList);
     }
 
     @GetMapping("/mail/{email}")
     public ResponseEntity<Object> findByEmail(@PathVariable String email) {
         Optional<User> user = userService.findUserByEmail(email);
-        return user.isEmpty() ? ResponseEntity.status(HttpStatus.NOT_FOUND).body(user) : ResponseEntity.status(HttpStatus.OK).body(user);
+        return ResponseEntity.status(HttpStatus.OK).body(user);
     }
 
     @PostMapping("/create")
     public ResponseEntity<Object> createUser(@RequestBody @Valid UserDTO userDTO) throws Exception {
         User user = userService.createUser(userDTO);
-        return user.getEmail().isEmpty() ? ResponseEntity.status(HttpStatus.NOT_FOUND).body(user) : ResponseEntity.status(HttpStatus.CREATED).body(user);
+        return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }
 
     @PatchMapping("/update/{email}")
