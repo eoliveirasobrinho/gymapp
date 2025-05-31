@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.project.gymapp.modules.infrastructure.security.configs.SecurityConfigurations;
+import com.project.gymapp.modules.user.exceptions.UserAlreadyRegisteredWithEmail;
+import com.project.gymapp.modules.user.exceptions.UserNotFoundException;
+import com.project.gymapp.modules.user.exceptions.UsersListIsEmptyException;
 import com.project.gymapp.modules.user.models.User;
 import com.project.gymapp.modules.user.models.dtos.UserDTO;
 import com.project.gymapp.modules.user.repositories.UserRepository;
@@ -28,16 +31,25 @@ public class UserService {
 
     public List<User> findAll() {
         List<User> usersList = userRepository.findAll();
-        return usersList.isEmpty() ? usersList : usersList;
+        if (usersList.isEmpty()) {
+            throw new UsersListIsEmptyException();
+        }
+        return usersList;
     }
 
     public List<User> findUserByName(String name) {
         List<User> userList = userRepository.findUserByName(name);
-        return userList.isEmpty() ? userList : userList;
+        if (userList.isEmpty()) {
+            throw new UsersListIsEmptyException();
+        }
+        return userList;
     }
 
     public Optional<User> findUserByEmail(String email) {
         Optional<User> user = userRepository.findUserByEmail(email);
+        if (user.isEmpty()) {
+            throw new UserNotFoundException();
+        }
         return user;
     }
 
@@ -49,7 +61,7 @@ public class UserService {
             throw new Exception("This user cannot be empty! Please create one");
         }
         if (userFounded.isPresent()) {
-            throw new Exception("User founded! Use another email");
+            throw new UserAlreadyRegisteredWithEmail();
         }
 
         String userPassword = userDTO.password();
@@ -62,6 +74,10 @@ public class UserService {
 
     public User updateUser(UserDTO userDTO, String email) {
         Optional<User> user = userRepository.findUserByEmail(email);
+
+        if (user.isEmpty()) {
+            throw new UserNotFoundException();
+        }
 
         if (user.isPresent()) {
             if (userDTO.document() != null && !userDTO.document().equals(user.get().getDocument())) {
@@ -96,6 +112,9 @@ public class UserService {
 
     public void deleteUser(String id) {
         Optional<User> user = userRepository.findById(id);
+        if (user.isEmpty()) {
+            throw new UserNotFoundException();
+        }
         User userToDelete = user.get();
         userRepository.delete(userToDelete);
     }
