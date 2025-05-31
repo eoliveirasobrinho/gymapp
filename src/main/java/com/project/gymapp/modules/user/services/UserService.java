@@ -2,6 +2,7 @@ package com.project.gymapp.modules.user.services;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,7 +11,6 @@ import com.project.gymapp.modules.infrastructure.security.configs.SecurityConfig
 import com.project.gymapp.modules.user.models.User;
 import com.project.gymapp.modules.user.models.dtos.UserDTO;
 import com.project.gymapp.modules.user.repositories.UserRepository;
-import com.project.gymapp.modules.utils.CreateUUID;
 
 @Service
 public class UserService {
@@ -21,12 +21,9 @@ public class UserService {
     @Autowired
     SecurityConfigurations securityConfigurations;
 
-    @Autowired
-    CreateUUID createUUID;
-
-    public UserService(UserRepository userRepository, CreateUUID createUUID) {
+    public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.createUUID = createUUID;
+
     }
 
     public List<User> findAll() {
@@ -57,7 +54,7 @@ public class UserService {
 
         String userPassword = userDTO.password();
         String encodedPassString = this.securityConfigurations.passwordEncoder().encode(userPassword);
-        String id = createUUID.createUUID();
+        String id = UUID.randomUUID().toString();
         User user = new User(id, userDTO.document(), userDTO.email(), userDTO.lastName(), userDTO.name(), userDTO.documentType(), userDTO.address(), userDTO.isActive(), userDTO.username(), encodedPassString, userDTO.role());
         User userSaved = userRepository.save(user);
         return userSaved;
