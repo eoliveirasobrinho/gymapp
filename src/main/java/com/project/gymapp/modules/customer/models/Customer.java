@@ -30,4 +30,75 @@ public class Customer {
     private Address address;
     private List<Product> products;
     private User userDetails;
+
+    public Customer(Address address, String birthday, String email, String lastname, String name, List<Product> products, User userDetails) {
+        this.address = address;
+        this.birthday = birthday;
+        this.email = email;
+        this.lastname = lastname;
+        this.name = name;
+        this.products = products;
+        this.userDetails = userDetails;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public String getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
+    }
+
+    public User getUserDetails() {
+        return userDetails;
+    }
+
+    public void setUserDetails(User userDetails) {
+        this.userDetails = userDetails;
+    }
+
+    public String getId() {
+        return id;
+    }
+
 }
