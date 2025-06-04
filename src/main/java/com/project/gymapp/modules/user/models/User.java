@@ -31,8 +31,6 @@ public class User implements UserDetails {
     @Email
     @NotBlank
     private String email;
-    @NotBlank
-    private Address address;
     private Boolean isActive;
     @NotBlank
     private String username;
@@ -41,14 +39,13 @@ public class User implements UserDetails {
     @NotBlank
     private Role role;
 
-    public User(String id, String document, String email, String lastName, String name, DocumentType type, Address address, Boolean isActive, String username, String password, Role role) {
+    public User(String id, String document, String email, String lastName, String name, DocumentType type, Boolean isActive, String username, String password, Role role) {
         this.id = id;
         this.document = document;
         this.email = email;
         this.lastName = lastName;
         this.name = name;
         this.type = type;
-        this.address = address;
         this.isActive = isActive;
         this.username = username;
         this.password = password;
@@ -101,14 +98,6 @@ public class User implements UserDetails {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public Address getAddress() {
-        return address;
-    }
-
-    public void setAddress(Address address) {
-        this.address = address;
     }
 
     public Boolean getIsActive() {
