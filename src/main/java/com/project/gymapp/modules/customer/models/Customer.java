@@ -6,8 +6,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.project.gymapp.modules.products.models.Product;
-import com.project.gymapp.modules.user.models.User;
 
+import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -28,17 +28,16 @@ public class Customer {
     private String email;
     @NotEmpty
     private Address address;
+    @Nullable
     private List<Product> products;
-    private User userDetails;
 
-    public Customer(Address address, String birthday, String email, String lastname, String name, List<Product> products, User userDetails) {
+    public Customer(Address address, String birthday, String email, String lastname, String name, List<Product> products) {
         this.address = address;
         this.birthday = birthday;
         this.email = email;
         this.lastname = lastname;
         this.name = name;
         this.products = products;
-        this.userDetails = userDetails;
     }
 
     public String getName() {
@@ -87,14 +86,6 @@ public class Customer {
 
     public void setProducts(List<Product> products) {
         this.products = products;
-    }
-
-    public User getUserDetails() {
-        return userDetails;
-    }
-
-    public void setUserDetails(User userDetails) {
-        this.userDetails = userDetails;
     }
 
     public String getId() {
