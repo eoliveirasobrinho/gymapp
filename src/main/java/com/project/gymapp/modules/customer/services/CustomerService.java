@@ -1,14 +1,18 @@
 package com.project.gymapp.modules.customer.services;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.project.gymapp.modules.customer.exceptions.CustomerAlreadyRegisteredException;
 import com.project.gymapp.modules.customer.exceptions.CustomerNotFoundException;
 import com.project.gymapp.modules.customer.exceptions.CustomersNotFoundException;
 import com.project.gymapp.modules.customer.models.Customer;
+import com.project.gymapp.modules.customer.models.dtos.CustomerDTO;
 import com.project.gymapp.modules.customer.repositories.CustomerRepository;
 
 @Service
@@ -40,6 +44,24 @@ public class CustomerService {
             throw new NullPointerException();
         }
 
+        return customer;
+    }
+
+    public Customer createCustomer(CustomerDTO customerDTO) {
+        Optional<Customer> customerId = customerRepository.findById(customerDTO.id());
+        if (customerId.isPresent()) {
+            throw new CustomerAlreadyRegisteredException();
+        }
+
+        if (customerDTO == null) {
+            throw new NullPointerException();
+        }
+
+        String id = UUID.randomUUID().toString();
+        LocalDateTime createdAt = LocalDateTime.now();
+        LocalDateTime updatedAt = LocalDateTime.now();
+        Customer customerToSave = new Customer(id, customerDTO.address(), customerDTO.birthday(), customerDTO.email(), customerDTO.lastname(), customerDTO.name(), customerDTO.products(), createdAt, updatedAt);
+        Customer customer = customerRepository.save(customerToSave);
         return customer;
     }
 

@@ -1,5 +1,6 @@
 package com.project.gymapp.modules.customer.models;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.data.annotation.Id;
@@ -11,6 +12,7 @@ import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 @Document("CUSTOMER")
 public class Customer {
@@ -30,14 +32,21 @@ public class Customer {
     private Address address;
     @Nullable
     private List<Product> products;
+    @NotNull
+    private LocalDateTime createdAt;
+    @NotNull
+    private LocalDateTime updatedAt;
 
-    public Customer(Address address, String birthday, String email, String lastname, String name, List<Product> products) {
+    public Customer(String id, Address address, String birthday, String email, String lastname, String name, List<Product> products, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        this.id = id;
         this.address = address;
         this.birthday = birthday;
         this.email = email;
         this.lastname = lastname;
         this.name = name;
         this.products = products;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
     public String getName() {
@@ -90,6 +99,22 @@ public class Customer {
 
     public String getId() {
         return id;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
 }

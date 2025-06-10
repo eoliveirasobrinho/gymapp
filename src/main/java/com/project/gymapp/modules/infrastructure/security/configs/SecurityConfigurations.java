@@ -44,6 +44,10 @@ public class SecurityConfigurations {
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests.requestMatchers(HttpMethod.GET, "/product/**").hasAnyRole("ADMIN", "MANAGEMENT"))
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests.requestMatchers(HttpMethod.GET, "/product/product-type/").hasAnyRole("ADMIN", "MANAGEMENT"))
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests.requestMatchers(HttpMethod.PATCH, "/product/update/**").hasAnyRole("ADMIN", "MANAGEMENT"))
+                .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests.requestMatchers(HttpMethod.GET, "/customer/health").permitAll())
+                .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests.requestMatchers(HttpMethod.GET, "/customer/all").hasAnyRole("ADMIN", "MANAGEMENT"))
+                .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests.requestMatchers(HttpMethod.POST, "/customer/create").hasAnyRole("ADMIN", "MANAGEMENT"))
+                .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests.requestMatchers(HttpMethod.GET, "/customer/**").hasAnyRole("ADMIN", "MANAGEMENT"))
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests.requestMatchers(HttpMethod.GET, "/product/health ").permitAll().anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
