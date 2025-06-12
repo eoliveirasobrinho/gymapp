@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.project.gymapp.modules.customer.exceptions.CustomerAlreadyRegisteredException;
 import com.project.gymapp.modules.customer.exceptions.CustomerNotFoundException;
-import com.project.gymapp.modules.customer.exceptions.CustomersNotFoundException;
+import com.project.gymapp.modules.customer.exceptions.CustomersEmptyListExceptionHandler;
 import com.project.gymapp.modules.customer.models.Customer;
 import com.project.gymapp.modules.customer.models.dtos.CustomerDTO;
 import com.project.gymapp.modules.customer.repositories.CustomerRepository;
@@ -28,7 +28,7 @@ public class CustomerService {
     public List<Customer> getAllCustomers() throws Exception {
         List<Customer> customers = customerRepository.findAll();
         if (customers.isEmpty()) {
-            throw new CustomersNotFoundException();
+            throw new CustomersEmptyListExceptionHandler();
         }
 
         return customers;
@@ -63,6 +63,55 @@ public class CustomerService {
         Customer customerToSave = new Customer(id, customerDTO.address(), customerDTO.birthday(), customerDTO.email(), customerDTO.lastname(), customerDTO.name(), customerDTO.products(), createdAt, updatedAt);
         Customer customer = customerRepository.save(customerToSave);
         return customer;
+    }
+
+    public Customer updateCustomer(CustomerDTO customerDTO, String id) {
+        Optional<Customer> customer = customerRepository.findById(id);
+        if (customer.isEmpty()) {
+            throw new CustomerNotFoundException();
+        }
+
+        if (customer.isPresent()) {
+            if (customerDTO.name() != null && !customerDTO.name().equals(customer.get().getName())) {
+                customer.get().setName(customerDTO.name());
+            }
+
+            if (customerDTO.address() != null && !customerDTO.address().equals(customer.get().getAddress())) {
+                customer.get().setAddress(customerDTO.address());
+            }
+
+            if (customerDTO.lastname() != null && !customerDTO.lastname().equals(customer.get().getLastname())) {
+                customer.get().setLastname(customerDTO.lastname());
+            }
+
+            if (customerDTO.birthday() != null && !customerDTO.birthday().equals(customer.get().getBirthday())) {
+                customer.get().setBirthday(customerDTO.birthday());
+            }
+
+            if (customerDTO.email() != null && !customerDTO.email().equals(customer.get().getEmail())) {
+                customer.get().setEmail(customerDTO.email());
+            }
+
+            if (customerDTO.products() != null && !customerDTO.products().equals(customer.get().getProducts())) {
+                customer.get().setProducts(customerDTO.products());
+            }
+
+        }
+
+        Customer customerToUpdate = customer.get();
+        Customer customerSaved = customerRepository.save(customerToUpdate);
+        return customerSaved;
+
+    }
+
+    public void deleteCustomer(String id) {
+        Optional<Customer> customer = customerRepository.findById(id);
+        if (customer.isEmpty()) {
+            throw new CustomerNotFoundException();
+        }
+
+        Customer customerTodelete = customer.get();
+        customerRepository.delete(customerTodelete);
     }
 
 }
