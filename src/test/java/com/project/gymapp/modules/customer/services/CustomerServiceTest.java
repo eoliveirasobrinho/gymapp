@@ -56,7 +56,7 @@ public class CustomerServiceTest {
 
         assertNotNull(customer, "Customer cannot be empty");
 
-        assertEquals("4343208932", customer.getId());
+        assertEquals("enio@test.com", customer.getEmail());
 
     }
 
@@ -69,7 +69,7 @@ public class CustomerServiceTest {
 
         assertNotNull(customer, "Customer cannot be empty");
 
-        assertNotEquals("37643246327", customer.getId());
+        assertNotEquals("enio5785@test.com", customer.getEmail());
     }
 
     @Test

@@ -65,6 +65,8 @@ public class Customer {
         this.products = customerDTO.products();
     }
 
+    public Customer() {}
+
     public String getName() {
         return name;
     }

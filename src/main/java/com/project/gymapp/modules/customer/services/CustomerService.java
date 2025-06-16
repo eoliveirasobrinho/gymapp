@@ -17,8 +17,9 @@ import com.project.gymapp.modules.customer.repositories.CustomerRepository;
 @Service
 public class CustomerService {
 
+
     @Autowired
-    CustomerRepository customerRepository;
+    private final CustomerRepository customerRepository;
 
     public CustomerService(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
@@ -33,12 +34,12 @@ public class CustomerService {
         return customers;
     }
 
-    public Optional<Customer> getCustomerById(String id) {
-        Optional<Customer> customer = customerRepository.findById(id);
-        if (customer.isEmpty()) {
+
+    public Optional<Customer> getCustomerByEmail(String email) {
+        Optional<Customer> customer = customerRepository.findCustomerByEmail(email);
+        if(customer.isEmpty()) {
             throw new CustomerNotFoundException();
         }
-
         return customer;
     }
 

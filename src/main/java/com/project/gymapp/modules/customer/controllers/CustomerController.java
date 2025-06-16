@@ -41,9 +41,9 @@ public class CustomerController {
         return ResponseEntity.status(HttpStatus.OK).body(customers);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Optional<Customer>> getCustomerById(@PathVariable String id) {
-        Optional<Customer> customer = customerService.getCustomerById(id);
+    @GetMapping("/mail/{email}")
+    public ResponseEntity<Optional<Customer>> getCustomerByEmail(@PathVariable String email) {
+        Optional<Customer> customer = customerService.getCustomerByEmail(email);
         return ResponseEntity.status(HttpStatus.OK).body(customer);
     }
 
