@@ -36,13 +36,13 @@ public class CustomerController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<Customer>> getAllCustomers() throws Exception {
+    public ResponseEntity<List<Customer>> getAllCustomers()  {
         List<Customer> customers = customerService.getAllCustomers();
         return ResponseEntity.status(HttpStatus.OK).body(customers);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<Customer>> getCustomerById(@PathVariable String id) throws Exception {
+    public ResponseEntity<Optional<Customer>> getCustomerById(@PathVariable String id) {
         Optional<Customer> customer = customerService.getCustomerById(id);
         return ResponseEntity.status(HttpStatus.OK).body(customer);
     }

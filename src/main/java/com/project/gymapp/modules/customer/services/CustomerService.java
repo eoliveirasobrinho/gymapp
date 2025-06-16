@@ -3,12 +3,11 @@ package com.project.gymapp.modules.customer.services;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.project.gymapp.modules.customer.exceptions.CustomerAlreadyRegisteredException;
 import com.project.gymapp.modules.customer.exceptions.CustomerNotFoundException;
 import com.project.gymapp.modules.customer.exceptions.CustomersEmptyListExceptionHandler;
 import com.project.gymapp.modules.customer.models.Customer;
@@ -25,7 +24,7 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
-    public List<Customer> getAllCustomers() throws Exception {
+    public List<Customer> getAllCustomers() {
         List<Customer> customers = customerRepository.findAll();
         if (customers.isEmpty()) {
             throw new CustomersEmptyListExceptionHandler();
