@@ -14,7 +14,7 @@ import jakarta.validation.constraints.NotBlank;
 public class Product {
 
     @Id
-    private String id;
+    private String _id;
     @NotBlank
     private ProductType productType;
     @NotBlank
@@ -30,8 +30,8 @@ public class Product {
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
     private String manufacturingDate;
 
-    public Product(String id, String brand, String manufacturingDate, String name, BigDecimal price, Integer quantity, ProductDetails productDetails, ProductType productType, String valiDate) {
-        this.id = id;
+    public Product( String brand, String manufacturingDate, String name, BigDecimal price, Integer quantity, ProductDetails productDetails, ProductType productType, String valiDate) {
+
         this.brand = brand;
         this.manufacturingDate = manufacturingDate;
         this.name = name;
@@ -42,13 +42,13 @@ public class Product {
         this.quantity = quantity;
     }
 
-    public String getId() {
-        return id;
+    public Product() {
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public String getId() {
+        return _id;
     }
+
 
     public ProductType getProductType() {
         return productType;

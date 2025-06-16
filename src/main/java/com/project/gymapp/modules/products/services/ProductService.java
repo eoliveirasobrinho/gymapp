@@ -43,17 +43,15 @@ public class ProductService {
 
     public Product createProduct(ProductDTO productDTO) throws Exception {
 
-        Optional<Product> productFounded = productRepository.findById(productDTO.id());
-        if (productFounded == null) {
-            throw new NullPointerException("Não foi possível Salvar! Favor preencher os campos obrigatórios");
-        }
-
-        if (productFounded.isPresent()) {
-            throw new ProductAlreadyRegisteredWithIdException();
-        }
-
-        String id = UUID.randomUUID().toString();
-        Product product = new Product(id, productDTO.brand(), productDTO.manufacturingDate(), productDTO.name(), productDTO.price(), productDTO.quantity(), productDTO.productDetails(), productDTO.productType(), productDTO.valiDate());
+//        Optional<Product> productFounded = productRepository.findById();
+//        if (productFounded == null) {
+//            throw new NullPointerException("Não foi possível Salvar! Favor preencher os campos obrigatórios");
+//        }
+//
+//        if (productFounded.isPresent()) {
+//            throw new ProductAlreadyRegisteredWithIdException();
+//        }
+        Product product = new Product(productDTO.brand(), productDTO.manufacturingDate(), productDTO.name(), productDTO.price(), productDTO.quantity(), productDTO.productDetails(), productDTO.productType(), productDTO.valiDate());
         Product productToSave = productRepository.save(product);
         return productToSave;
     }

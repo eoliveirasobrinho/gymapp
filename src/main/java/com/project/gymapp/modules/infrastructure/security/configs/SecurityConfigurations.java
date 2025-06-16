@@ -31,7 +31,7 @@ public class SecurityConfigurations {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests.requestMatchers(HttpMethod.POST, "/auth/login").permitAll())
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests.requestMatchers(HttpMethod.GET, "/user/health").permitAll())
-                .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests.requestMatchers(HttpMethod.POST, "/user/create").hasAnyRole("ADMIN", "MANAGEMENT"))
+                .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests.requestMatchers(HttpMethod.POST, "/user/create").permitAll())
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests.requestMatchers(HttpMethod.PATCH, "/user/update/**").hasAnyRole("ADMIN", "MANAGEMENT"))
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests.requestMatchers(HttpMethod.GET, "/user/all ").hasAnyRole("ADMIN", "MANAGEMENT"))
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests.requestMatchers(HttpMethod.GET, "/user/name/** ").hasAnyRole("ADMIN", "MANAGEMENT"))

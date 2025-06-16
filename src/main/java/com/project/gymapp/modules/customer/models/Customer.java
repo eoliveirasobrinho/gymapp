@@ -8,6 +8,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.project.gymapp.modules.customer.models.dtos.CustomerDTO;
 import com.project.gymapp.modules.products.models.Product;
 
 import jakarta.annotation.Nullable;
@@ -20,7 +21,7 @@ import jakarta.validation.constraints.NotNull;
 public class Customer {
 
     @Id
-    private String id;
+    private String _id;
     @NotBlank
     private String name;
     @NotBlank
@@ -41,8 +42,8 @@ public class Customer {
     @LastModifiedDate
     private LocalDateTime updatedAt;
 
-    public Customer(String id, Address address, String birthday, String email, String lastname, String name, List<Product> products, LocalDateTime createdAt, LocalDateTime updatedAt) {
-        this.id = id;
+    public Customer(Address address, String birthday, String email, String lastname, String name, List<Product> products, LocalDateTime createdAt, LocalDateTime updatedAt) {
+
         this.address = address;
         this.birthday = birthday;
         this.email = email;
@@ -51,6 +52,17 @@ public class Customer {
         this.products = products;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+    }
+
+    public Customer(CustomerDTO customerDTO) {
+        this.address = customerDTO.address();
+        this.birthday = customerDTO.birthday();
+        this.createdAt = customerDTO.createdAt();
+        this.updatedAt = customerDTO.updatedAt();
+        this.email = customerDTO.email();
+        this.name = customerDTO.name();
+        this.lastname = customerDTO.lastname();
+        this.products = customerDTO.products();
     }
 
     public String getName() {
@@ -102,7 +114,7 @@ public class Customer {
     }
 
     public String getId() {
-        return id;
+        return _id;
     }
 
     public LocalDateTime getCreatedAt() {
