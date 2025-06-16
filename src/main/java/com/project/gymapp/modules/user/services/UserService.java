@@ -67,7 +67,7 @@ public class UserService {
         String userPassword = userDTO.password();
         String encodedPassString = this.securityConfigurations.passwordEncoder().encode(userPassword);
         String id = UUID.randomUUID().toString();
-        User user = new User(id, userDTO.document(), userDTO.email(), userDTO.lastName(), userDTO.name(), userDTO.documentType(), userDTO.address(), userDTO.isActive(), userDTO.username(), encodedPassString, userDTO.role());
+        User user = new User(id, userDTO.document(), userDTO.email(), userDTO.lastName(), userDTO.name(), userDTO.documentType(), userDTO.isActive(), userDTO.username(), encodedPassString, userDTO.role());
         User userSaved = userRepository.save(user);
         return userSaved;
     }
@@ -88,9 +88,6 @@ public class UserService {
             }
             if (userDTO.isActive() != null && !userDTO.isActive().equals(user.get().getIsActive())) {
                 user.get().setIsActive(userDTO.isActive());
-            }
-            if (userDTO.address() != null && !userDTO.address().equals(user.get().getAddress())) {
-                user.get().setAddress(userDTO.address());
             }
 
             if (userDTO.name() != null && !userDTO.name().equals(user.get().getName())) {

@@ -8,3 +8,13 @@ services:
       - MONGO_USER=mongodbuser
       - MONGO_PASSWORD=mongodbpassword
     restart: always
+
+  db-mongo-test:
+    image: mongo:latest
+    ports:
+      - '27018:27017'
+    container_name: db_mongo_test
+    environment:
+      - MONGO_USER=dbmongotest
+      - MONGO_PASSWORD=mongodbpassword
+    restart: always

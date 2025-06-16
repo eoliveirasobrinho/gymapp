@@ -2,12 +2,11 @@ package com.project.gymapp.modules.products.services;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.project.gymapp.modules.products.exceptions.ProductAlreadyRegisteredWithIdException;
 import com.project.gymapp.modules.products.exceptions.ProductByTypeNotFoundException;
 import com.project.gymapp.modules.products.exceptions.ProductNotFoundException;
 import com.project.gymapp.modules.products.exceptions.ProductsNotFoundException;
@@ -41,21 +40,11 @@ public class ProductService {
         return productsByProductType;
     }
 
-    public Product createProduct(ProductDTO productDTO) throws Exception {
+    public Product createProduct(ProductDTO productDTO) {
 
-        Optional<Product> productFounded = productRepository.findById(productDTO.id());
-        if (productFounded == null) {
-            throw new NullPointerException("Não foi possível Salvar! Favor preencher os campos obrigatórios");
-        }
+        Product product = new Product(productDTO.brand(), productDTO.manufacturingDate(), productDTO.name(), productDTO.price(), productDTO.quantity(), productDTO.productDetails(), productDTO.productType(), productDTO.valiDate());
 
-        if (productFounded.isPresent()) {
-            throw new ProductAlreadyRegisteredWithIdException();
-        }
-
-        String id = UUID.randomUUID().toString();
-        Product product = new Product(id, productDTO.brand(), productDTO.manufacturingDate(), productDTO.name(), productDTO.price(), productDTO.quantity(), productDTO.productDetails(), productDTO.productType(), productDTO.valiDate());
-        Product productToSave = productRepository.save(product);
-        return productToSave;
+        return productRepository.save(product);
     }
 
     public Optional<Product> findById(String id) {
@@ -82,44 +71,40 @@ public class ProductService {
             throw new ProductNotFoundException();
         }
 
-        if (product.isPresent()) {
-            if (productDTO.name() != null && !productDTO.name().equals(product.get().getName())) {
-                product.get().setName(productDTO.name());
-            }
+        if (productDTO.name() != null && !productDTO.name().equals(product.get().getName())) {
+            product.get().setName(productDTO.name());
+        }
 
-            if (productDTO.brand() != null && !productDTO.brand().equals(product.get().getBrand())) {
-                product.get().setBrand(productDTO.brand());
-            }
+        if (productDTO.brand() != null && !productDTO.brand().equals(product.get().getBrand())) {
+            product.get().setBrand(productDTO.brand());
+        }
 
-            if (productDTO.price() != null && !productDTO.price().equals(product.get().getPrice())) {
-                product.get().setPrice(productDTO.price());
-            }
+        if (productDTO.price() != null && !productDTO.price().equals(product.get().getPrice())) {
+            product.get().setPrice(productDTO.price());
+        }
 
-            if (productDTO.manufacturingDate() != null && !productDTO.manufacturingDate().equals(product.get().getManufacturingDate())) {
-                product.get().setManufacturingDate(productDTO.manufacturingDate());
-            }
+        if (productDTO.manufacturingDate() != null && !productDTO.manufacturingDate().equals(product.get().getManufacturingDate())) {
+            product.get().setManufacturingDate(productDTO.manufacturingDate());
+        }
 
-            if (productDTO.valiDate() != null && !productDTO.valiDate().equals(product.get().getValiDate())) {
-                product.get().setValiDate(productDTO.valiDate());
-            }
+        if (productDTO.valiDate() != null && !productDTO.valiDate().equals(product.get().getValiDate())) {
+            product.get().setValiDate(productDTO.valiDate());
+        }
 
-            if (productDTO.productDetails() != null && !productDTO.productDetails().equals(product.get().getProductDetails())) {
-                product.get().setProductDetails(productDTO.productDetails());
-            }
+        if (productDTO.productDetails() != null && !productDTO.productDetails().equals(product.get().getProductDetails())) {
+            product.get().setProductDetails(productDTO.productDetails());
+        }
 
-            if (productDTO.productType() != null && !productDTO.productType().equals(product.get().getProductType())) {
-                product.get().setProductType(productDTO.productType());
-            }
+        if (productDTO.productType() != null && !productDTO.productType().equals(product.get().getProductType())) {
+            product.get().setProductType(productDTO.productType());
+        }
 
-            if (productDTO.quantity() != null && !productDTO.quantity().equals(product.get().getQuantity())) {
-                product.get().setQuantity(productDTO.quantity());
-            }
-
+        if (productDTO.quantity() != null && !productDTO.quantity().equals(product.get().getQuantity())) {
+            product.get().setQuantity(productDTO.quantity());
         }
 
         Product productToSave = product.get();
-        Product productSaved = productRepository.save(productToSave);
-        return productSaved;
+        return productRepository.save(productToSave);
     }
 
 }

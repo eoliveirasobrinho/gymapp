@@ -1,10 +1,7 @@
-package com.project.gymapp.modules.user.models;
-
-import org.springframework.data.mongodb.core.mapping.Document;
+package com.project.gymapp.modules.customer.models;
 
 import jakarta.validation.constraints.NotBlank;
 
-@Document(collection = "USER")
 public class Address {
 
     @NotBlank
