@@ -33,7 +33,6 @@ public class Customer {
     private String email;
     @NotEmpty
     private Address address;
-    @Nullable
     private List<Product> products;
     @NotNull
     @CreatedDate
