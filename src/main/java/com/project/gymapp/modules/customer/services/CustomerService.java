@@ -3,8 +3,11 @@ package com.project.gymapp.modules.customer.services;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 
+import com.project.gymapp.modules.customer.exceptions.CustomerAlreadyRegisteredException;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -43,12 +46,17 @@ public class CustomerService {
         return customer;
     }
 
-    public Customer createCustomer(Customer customerData) {
+    public Customer createCustomer(CustomerDTO customerData) {
 
+        Optional<Customer> customerEmail = customerRepository.findCustomerByEmail(customerData.email());
+        if(customerEmail.isPresent()) {
+            throw new CustomerAlreadyRegisteredException();
+        }
         LocalDateTime createdAt = LocalDateTime.now();
         LocalDateTime updatedAt = LocalDateTime.now();
-        Customer customerToSave = new Customer(customerData.getAddress(), customerData.getBirthday(), customerData.getEmail(), customerData.getLastname(), customerData.getName(), customerData.getProducts(), createdAt, updatedAt);
-        return customerRepository.save(customerToSave);
+        Customer customerToSave = new Customer(customerData.address(), customerData.birthday(), customerData.email(), customerData.lastname(), customerData.name(), customerData.products(), createdAt, updatedAt);
+        Customer savedCustomer = customerRepository.save(customerToSave);
+        return savedCustomer;
     }
 
     public Customer updateCustomer(CustomerDTO customerDTO, String id) {
@@ -77,9 +85,7 @@ public class CustomerService {
             customer.get().setEmail(customerDTO.email());
         }
 
-        if (customerDTO.products() != null && !customerDTO.products().equals(customer.get().getProducts())) {
-            customer.get().setProducts(customerDTO.products());
-        }
+        customer.get().setUpdatedAt(LocalDateTime.now());
 
         Customer customerToUpdate = customer.get();
         return customerRepository.save(customerToUpdate);
